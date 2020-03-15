@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 export const Bar = ({ barStyle }) => {
   return (
@@ -11,16 +11,16 @@ export const Bar = ({ barStyle }) => {
 
 const BarStyles = StyleSheet.create({
   barContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   bar: {
-    width: "40%",
-    height: 6,
+    width: 22,
+    height: 4,
     borderRadius: 5,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: "#e2e2e2"
+    backgroundColor: '#E2E7E9'
   }
 });
