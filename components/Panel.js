@@ -1,22 +1,21 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   StyleSheet,
-  ScrollView,
   View,
   TouchableHighlight,
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
   PanResponder
-} from "react-native";
+} from 'react-native';
 
-import { Bar } from "./Bar";
-import { Close } from "./Close";
+import { Bar } from './Bar';
+import { Close } from './Close';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const FULL_HEIGHT = Dimensions.get("window").height;
-const FULL_WIDTH = Dimensions.get("window").width;
+const FULL_HEIGHT = Dimensions.get('window').height;
+const FULL_WIDTH = Dimensions.get('window').width;
 const PANEL_HEIGHT = FULL_HEIGHT - 100;
 
 const STATUS = {
@@ -147,8 +146,8 @@ class SwipeablePanel extends Component {
           SwipeablePanelStyles.background,
           {
             backgroundColor: noBackgroundOpacity
-              ? "rgba(0,0,0,0)"
-              : "rgba(0,0,0,0.5)"
+              ? 'rgba(0,0,0,0)'
+              : 'rgba(0,0,0,0.5)'
           }
         ]}
       >
@@ -157,7 +156,7 @@ class SwipeablePanel extends Component {
             <View
               style={[
                 SwipeablePanelStyles.background,
-                { backgroundColor: "rgba(0,0,0,0)" }
+                { backgroundColor: 'rgba(0,0,0,0)' }
               ]}
             />
           </TouchableWithoutFeedback>
@@ -179,7 +178,7 @@ class SwipeablePanel extends Component {
               onPress={this.props.onClose}
             />
           )}
-          <ScrollView
+          <View
             onTouchStart={() => {
               return false;
             }}
@@ -197,7 +196,7 @@ class SwipeablePanel extends Component {
             ) : (
               this.props.children
             )}
-          </ScrollView>
+          </View>
         </Animated.View>
       </Animated.View>
     ) : null;
@@ -236,27 +235,27 @@ SwipeablePanel.defaultProps = {
 
 const SwipeablePanelStyles = StyleSheet.create({
   background: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     width: FULL_WIDTH,
     height: FULL_HEIGHT,
-    backgroundColor: "rgba(0,0,0,0.5)"
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   panel: {
-    position: "absolute",
+    position: 'absolute',
     height: PANEL_HEIGHT,
     width: FULL_WIDTH - 50,
     transform: [{ translateY: FULL_HEIGHT - 100 }],
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "white",
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'white',
     bottom: 0,
     borderRadius: 20,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1
@@ -267,7 +266,7 @@ const SwipeablePanelStyles = StyleSheet.create({
     zIndex: 2
   },
   scrollViewContentContainerStyle: {
-    width: "100%"
+    width: '100%'
   }
 });
 
