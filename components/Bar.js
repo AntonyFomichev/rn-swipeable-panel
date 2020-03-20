@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 
-export const Bar = ({ barStyle }) => {
+export const Bar = ({ barStyle, alternateBar }) => {
   return (
     <View style={BarStyles.barContainer}>
-      <View style={[BarStyles.bar, barStyle]} />
+      {alternateBar ? (
+        <Image source={require('./LineDown.png')} style={BarStyles.image} />
+      ) : (
+        <View style={[BarStyles.bar, barStyle]} />
+      )}
     </View>
   );
 };
@@ -22,5 +26,11 @@ const BarStyles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: '#E2E7E9'
+  },
+  image: {
+    width: 27,
+    height: 6,
+    marginVertical: 10,
+    resizeMode: 'cover'
   }
 });

@@ -137,7 +137,8 @@ class SwipeablePanel extends Component {
       style,
       closeRootStyle,
       closeIconStyle,
-      barStyle
+      barStyle,
+      alternateBar
     } = this.props;
 
     return showComponent ? (
@@ -170,7 +171,9 @@ class SwipeablePanel extends Component {
           ]}
           {...this._panResponder.panHandlers}
         >
-          {!this.props.noBar && <Bar barStyle={barStyle} />}
+          {!this.props.noBar && (
+            <Bar barStyle={barStyle} alternateBar={alternateBar} />
+          )}
           {this.props.showCloseButton && (
             <Close
               rootStyle={closeRootStyle}
