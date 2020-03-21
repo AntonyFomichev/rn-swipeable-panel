@@ -18,6 +18,7 @@ const FULL_HEIGHT = Dimensions.get('window').height;
 const FULL_WIDTH = Dimensions.get('window').width;
 const PANEL_HEIGHT = FULL_HEIGHT - 100;
 
+
 const STATUS = {
   CLOSED: 0,
   SMALL: 1,
@@ -104,7 +105,7 @@ class SwipeablePanel extends Component {
 
     if (newStatus == 0) {
       newY = PANEL_HEIGHT;
-    } else if (newStatus == 1) newY = FULL_HEIGHT - 400;
+    } else if (newStatus == 1) newY = FULL_HEIGHT - 600;
     else if (newStatus == 2) newY = 0;
 
     this.setState({
@@ -141,6 +142,7 @@ class SwipeablePanel extends Component {
       alternateBar
     } = this.props;
 
+
     return showComponent ? (
       <Animated.View
         style={[
@@ -165,6 +167,7 @@ class SwipeablePanel extends Component {
         <Animated.View
           style={[
             SwipeablePanelStyles.panel,
+            { height: this.props.isFullscreen ? FULL_HEIGHT - 40 : PANEL_HEIGHT },
             { width: this.props.fullWidth ? FULL_WIDTH : FULL_WIDTH - 50 },
             { transform: this.state.pan.getTranslateTransform() },
             style
@@ -218,6 +221,8 @@ SwipeablePanel.propTypes = {
   closeOnTouchOutside: PropTypes.bool,
   onlyLarge: PropTypes.bool,
   openLarge: PropTypes.bool,
+  isFullscreen: PropTypes.bool,
+  alternateBar: PropTypes.bool,
   barStyle: PropTypes.object,
   noBar: PropTypes.bool
 };
@@ -226,6 +231,7 @@ SwipeablePanel.defaultProps = {
   style: {},
   onClose: () => {},
   fullWidth: true,
+  isFullscreen: false,
   closeRootStyle: {},
   closeIconStyle: {},
   openLarge: false,
@@ -248,7 +254,6 @@ const SwipeablePanelStyles = StyleSheet.create({
   },
   panel: {
     position: 'absolute',
-    height: PANEL_HEIGHT,
     width: FULL_WIDTH - 50,
     transform: [{ translateY: FULL_HEIGHT - 100 }],
     display: 'flex',
@@ -266,7 +271,7 @@ const SwipeablePanelStyles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
     elevation: 1,
-    zIndex: 2
+    zIndex: 1000
   },
   scrollViewContentContainerStyle: {
     width: '100%'
