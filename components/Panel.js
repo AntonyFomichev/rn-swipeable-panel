@@ -6,7 +6,8 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
-  PanResponder
+  PanResponder,
+  Text
 } from 'react-native';
 
 import { Bar } from './Bar';
@@ -17,7 +18,6 @@ import PropTypes from 'prop-types';
 const FULL_HEIGHT = Dimensions.get('window').height;
 const FULL_WIDTH = Dimensions.get('window').width;
 const PANEL_HEIGHT = FULL_HEIGHT - 100;
-
 
 const STATUS = {
   CLOSED: 0,
@@ -139,9 +139,9 @@ class SwipeablePanel extends Component {
       closeRootStyle,
       closeIconStyle,
       barStyle,
-      alternateBar
+      alternateBar,
+      isHiddenExist
     } = this.props;
-
 
     return showComponent ? (
       <Animated.View
@@ -167,7 +167,9 @@ class SwipeablePanel extends Component {
         <Animated.View
           style={[
             SwipeablePanelStyles.panel,
-            { height: this.props.isFullscreen ? FULL_HEIGHT - 40 : PANEL_HEIGHT },
+            {
+              height: this.props.isFullscreen ? FULL_HEIGHT - 40 : PANEL_HEIGHT
+            },
             { width: this.props.fullWidth ? FULL_WIDTH : FULL_WIDTH - 50 },
             { transform: this.state.pan.getTranslateTransform() },
             style
@@ -198,7 +200,14 @@ class SwipeablePanel extends Component {
             {this.state.canScroll ? (
               <TouchableHighlight>
                 <React.Fragment>{this.props.children}</React.Fragment>
+                {hiddenPart}
               </TouchableHighlight>
+            ) : isHiddenExist ? (
+              <>
+                {this.props.children[0]}
+                {this.state.status === STATUS.LARGE && this.props.children[1]}
+                {this.props.children[2]}
+              </>
             ) : (
               this.props.children
             )}
@@ -224,6 +233,7 @@ SwipeablePanel.propTypes = {
   isFullscreen: PropTypes.bool,
   alternateBar: PropTypes.bool,
   barStyle: PropTypes.object,
+  isHiddenExist: PropTypes.bool,
   noBar: PropTypes.bool
 };
 
@@ -239,6 +249,7 @@ SwipeablePanel.defaultProps = {
   showCloseButton: false,
   noBar: false,
   closeOnTouchOutside: false,
+  isHiddenExist: false,
   barStyle: {}
 };
 
