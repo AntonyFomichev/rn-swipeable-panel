@@ -6,8 +6,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
-  PanResponder,
-  Text
+  PanResponder
 } from 'react-native';
 
 import { Bar } from './Bar';
@@ -50,19 +49,23 @@ class SwipeablePanel extends Component {
         this.state.pan.setValue({ x: 0, y: 0 });
       },
       onPanResponderMove: (evt, gestureState) => {
-        this.state.pan.setValue({
-          x: 0,
-          y: gestureState.dy
-        });
+        if (gestureState.dy > 0) {
+          this.state.pan.setValue({
+            x: 0,
+            y: gestureState.dy
+          });
+        }
       },
       onPanResponderRelease: (evt, gestureState) => {
-        const { onlyLarge } = this.props;
+        const { onlyLarge, onlySmall } = this.props;
         this.state.pan.flattenOffset();
 
         if (gestureState.dy == 0) {
           this._animateTo(this.state.status);
         } else if (gestureState.dy < -100 || gestureState.vy < -1) {
-          if (this.state.status == STATUS.SMALL) this._animateTo(STATUS.LARGE);
+          if (this.state.status == STATUS.SMALL) {
+            this._animateTo(onlySmall ? STATUS.SMALL : STATUS.LARGE);
+          }
           else {
             this._animateTo(STATUS.LARGE);
           }
@@ -85,14 +88,14 @@ class SwipeablePanel extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { isActive, openLarge, onlyLarge } = this.props;
+    const { isActive, openLarge, onlyLarge, onlySmall } = this.props;
 
     if (prevProps.isActive !== isActive) {
       this.setState({ isActive });
 
       if (isActive) {
         this._animateTo(
-          openLarge ? STATUS.LARGE : onlyLarge ? STATUS.LARGE : STATUS.SMALL
+          openLarge ? STATUS.LARGE : onlySmall ? STATUS.SMALL : onlyLarge ? STATUS.LARGE : STATUS.SMALL
         );
       } else {
         this._animateTo();
@@ -105,7 +108,7 @@ class SwipeablePanel extends Component {
 
     if (newStatus == 0) {
       newY = PANEL_HEIGHT;
-    } else if (newStatus == 1) newY = FULL_HEIGHT - 600;
+    } else if (newStatus == 1) newY = FULL_HEIGHT - 570;
     else if (newStatus == 2) newY = 0;
 
     this.setState({
@@ -205,7 +208,7 @@ class SwipeablePanel extends Component {
             ) : isHiddenExist ? (
               <>
                 {this.props.children[0]}
-                {this.state.status === STATUS.LARGE && this.props.children[1]}
+                <View style={this.state.status !== STATUS.LARGE && {display: 'none'}}>{this.props.children[1]}</View>
                 {this.props.children[2]}
               </>
             ) : (
@@ -230,6 +233,7 @@ SwipeablePanel.propTypes = {
   closeOnTouchOutside: PropTypes.bool,
   onlyLarge: PropTypes.bool,
   openLarge: PropTypes.bool,
+  onlySmall:  PropTypes.bool,
   isFullscreen: PropTypes.bool,
   alternateBar: PropTypes.bool,
   barStyle: PropTypes.object,
@@ -246,6 +250,7 @@ SwipeablePanel.defaultProps = {
   closeIconStyle: {},
   openLarge: false,
   onlyLarge: false,
+  onlySmall: false,
   showCloseButton: false,
   noBar: false,
   closeOnTouchOutside: false,
@@ -261,7 +266,6 @@ const SwipeablePanelStyles = StyleSheet.create({
     alignItems: 'center',
     width: FULL_WIDTH,
     height: FULL_HEIGHT,
-    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   panel: {
     position: 'absolute',
